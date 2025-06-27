@@ -4,7 +4,7 @@ import LoginUser from "./Controllers/LoginUser.js";
 import LoginVerifier from './Middlewares/LoginVerifier.js'
 import Tokenizer from "./Middlewares/Tokenizer.js";
 import TokenVerifier from "./Middlewares/TokenVerifier.js";
-import  LocalTokenValidator  from "./Middlewares/LocalTokenValidator.js";
+import LocalTokenValidator  from "./Middlewares/LocalTokenValidator.js";
 import CheckJobExistance from "./Middlewares/CheckJobExistance.js";
 import AddJobs from "./Controllers/AddJobs.js";
 import AdminDashBoard from "./Controllers/AdminDashBoard.js";

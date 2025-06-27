@@ -20,8 +20,8 @@ export default async function VerifyInterestedClient(req, res, next){
                 next();
             }
             else if(req.body.sessionBooking){
-                const { name, email, mobile , comments, sessionTime} = req.body ;
-                console.log( name, email, mobile , comments, sessionTime);
+                const { name, email, mobile , comments} = req.body ;
+                console.log( name, email, mobile , comments);
                 next();
             }
              
