@@ -16,7 +16,7 @@ export const InterestedClientsSchema = new mongoose.Schema({
     },
     time : {
         type: String,
-        default : String(()=>new Date()),
+        default : ()=>new Date(),
         required : true
     }
     
