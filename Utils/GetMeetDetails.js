@@ -21,7 +21,7 @@ export default async function GetMeetDetails (req, res)  {
     };
     let findMobile = await InterestedClientsModel.findOne({email, name})
     console.log("📅 New Meeting Booked:\n", meetingDetails);
-    SessionModel.create({StudentName :name,
+    await SessionModel.create({StudentName :name,
                         StudentEmail:email,
                         StudentMobile: findMobile.mobile ,
                         SessionStartTiming:start_time,
