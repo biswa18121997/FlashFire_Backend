@@ -3,7 +3,7 @@ import { SessionModel } from "../Schema_Models/Sessions.js";
 import { DiscordConnect } from "./DiscordConnect.js";
 
 
-export default async function GetMeetDetails (req, res)  {
+export const  GetMeetDetails = async (req, res) => {
   const { event, payload } = req.body;
   console.log(req.body);
   try {
@@ -57,5 +57,5 @@ export default async function GetMeetDetails (req, res)  {
 
   
 };
-GetMeetDetails();
+
 

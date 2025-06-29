@@ -11,7 +11,7 @@ import AdminDashBoard from "./Controllers/AdminDashBoard.js";
 import VerifyInterestedClient from "./Middlewares/VerifyInterestedClient.js";
 import Register_Sessions from "./Controllers/Register_Sessions.js";
 import Contact from "./Controllers/Contact.js";
-import GetMeetDetails from "./Utils/GetMeetDetails.js";
+import {GetMeetDetails} from "./Utils/GetMeetDetails.js";
 
 
 export default function Routes(app){
