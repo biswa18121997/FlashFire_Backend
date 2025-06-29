@@ -9,15 +9,20 @@ export const InterestedClientsSchema = new mongoose.Schema({
     },
     email : {
         type : String,
-        
+        default : ' '
     },
     mobile : {
-        type : Number,
+        type : String,
+        default : ' '
     },
     time : {
         type: String,
         default : ()=>new Date(),
         required : true
+    },
+    workAuthorization : {
+        type : String,
+        default : ' '
     }
     
 });

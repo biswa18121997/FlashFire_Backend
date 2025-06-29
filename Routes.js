@@ -11,6 +11,7 @@ import AdminDashBoard from "./Controllers/AdminDashBoard.js";
 import VerifyInterestedClient from "./Middlewares/VerifyInterestedClient.js";
 import Register_Sessions from "./Controllers/Register_Sessions.js";
 import Contact from "./Controllers/Contact.js";
+import GetMeetDetails from "./Utils/GetMeetDetails.js";
 
 
 export default function Routes(app){
@@ -20,6 +21,7 @@ export default function Routes(app){
    app.post('/admin/addjobs',   CheckJobExistance ,  AddJobs );
    app.get('/admin/dashboard',   AdminDashBoard);
    app.post('/', VerifyInterestedClient , Register_Sessions);
+   app.post("/calendly-webhook",GetMeetDetails);
    app,post('/api/contact', Contact)
   
 
