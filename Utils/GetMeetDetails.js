@@ -5,6 +5,7 @@ import { DiscordConnect } from "./DiscordConnect.js";
 
 export default async function GetMeetDetails (req, res)  {
   const { event, payload } = req.body;
+  console.log(req.body);
   try {
     if (event === "invitee.created") {
     const { name, email, cancel_url, reschedule_url, questions_and_answers } = payload.invitee;
