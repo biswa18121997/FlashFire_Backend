@@ -10,6 +10,7 @@ import AddJobs from "./Controllers/AddJobs.js";
 import AdminDashBoard from "./Controllers/AdminDashBoard.js";
 import VerifyInterestedClient from "./Middlewares/VerifyInterestedClient.js";
 import Register_Sessions from "./Controllers/Register_Sessions.js";
+import ContactUs from "./Schema_Models/ContactUs.js";
 
 
 export default function Routes(app){
@@ -19,6 +20,7 @@ export default function Routes(app){
    app.post('/admin/addjobs',   CheckJobExistance ,  AddJobs );
    app.get('/admin/dashboard',   AdminDashBoard);
    app.post('/', VerifyInterestedClient , Register_Sessions);
+   app,post('/api/contact', ContactUs)
   
 
 }
