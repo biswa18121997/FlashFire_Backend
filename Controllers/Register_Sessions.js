@@ -7,7 +7,7 @@ import { DiscordConnect } from "../Utils/DiscordConnect.js";
 export default async function Register_Sessions( req, res ) {
     try {
         let {name, email, mobile, smtp_check, carrier, location, workAuthorization} = req.body;
-        console.log(req.body)
+        console.log('from register_session',req.body)
         if(smtp_check && carrier !=='' && location !=='')
             await InterestedClientsModel.create({name, email, mobile, workAuthorization })
         else if(!smtp_check && (carrier!== '' && location !== ''))
