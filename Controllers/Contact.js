@@ -1,4 +1,4 @@
-import ContactUsModel from "../Schema_Models/ContactUs.js";
+import {ContactUsModel} from "../Schema_Models/ContactUs.js";
 
 export default async function Contact(req, res) {
     try {
