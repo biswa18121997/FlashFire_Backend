@@ -32,6 +32,9 @@ export default async function VerifyInterestedClient(req, res, next){
             next();
             return;
            }
+           else{
+            return res.status(400).json({message : 'enter details correctly..!'});
+           }
              
         }
         else{
