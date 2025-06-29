@@ -48,7 +48,7 @@ export default async function GetMeetDetails (req, res)  {
 
     return res.status(200).json({message : "Webhook received- meeting details saved to DB and sent to Discord"});
   } else {
-    res.status(200).send("Event ignored");
+    return res.status(200).send("Event ignored");
   }
     
   } catch (error) {
@@ -57,4 +57,5 @@ export default async function GetMeetDetails (req, res)  {
 
   
 };
+GetMeetDetails();
 
