@@ -14,7 +14,7 @@ export default async function VerifyInterestedClient(req, res, next){
             let checkMobile = await fetch(`http://apilayer.net/api/validate?access_key=${process.env.NUMVERIFY_API_ACCESS_KEY}&number=${req.body.mobile}&country_code=&format=1`)
             let responseCheckMobile = await checkMobile.json();
             console.log(responseCheckMobile);
-            if((responseCheckMobile?.carrier !=='' && responseCheckMobile?.location !=='') && checkEmail?.smtp_check == true){
+            if((responseCheckMobile?.carrier !=='' && responseCheckMobile?.location !=='') && checkEmail?.smtp_check){
                 req.body.carrier = responseCheckMobile?.carrier;
                 req.body.location = responseCheckMobile?.location;
                 req.body.smtp_check = responseCheckEmail?.smtp_check;
