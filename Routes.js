@@ -22,7 +22,7 @@ export default function Routes(app){
    app.get('/admin/dashboard',   AdminDashBoard);
    app.post('/', VerifyInterestedClient , Register_Sessions);
    app.post("/calendly-webhook",GetMeetDetails);
-   app,post('/api/contact', Contact)
+   app.post('/api/contact', Contact)
   
 
 }
