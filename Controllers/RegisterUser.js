@@ -1,12 +1,12 @@
 import { UserModel } from "../Schema_Models/UserModel.js";
 import bcrypt from 'bcrypt'
-import ENV from '../SECRET.js'
-
+import dotenv from 'dotenv'
+dotenv.config();
 // controller function for Register user, inserts user to db..
 
 export default async function RegisterUser(req, res){
     try {   
-        const SALT = ENV.SALT_BCRYPT;
+        const SALT = process.env.SALT_BCRYPT;
         let { name, email, password } = req.body;
         await UserModel.insertOne({ name, email, passwordHashed : bcrypt.hashSync(password, SALT)})
         return res.status(201).json({message : "User Created Succeesfully..!Please Login to Continue"});

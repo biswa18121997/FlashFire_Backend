@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import jwt from 'jsonwebtoken'
 import { UserModel } from "../Schema_Models/UserModel.js";
 import {ProfileModel} from '../Schema_Models/ProfileModel.js'
-import ENV from "../SECRET.js";
+import dotenv from 'dotenv'
 //login user controller that sends the token to clent to be saved to local storage..after jwt verification
 
 export default async function LoginUser(req, res) {
@@ -10,7 +10,7 @@ export default async function LoginUser(req, res) {
     try {
         let findProfile = await ProfileModel.findOne({email:req.email});
         let findUser = await UserModel.findOne({email: req.email});
-        if(jwt.verify(req.token, SECRET_KEY_JWT)){
+        if(jwt.verify(req.token, process.env.SECRET_KEY_JWT)){
             let {userID,name,email } = jwt.verify(req.token, SECRET_KEY_JWT);
         }
         else{

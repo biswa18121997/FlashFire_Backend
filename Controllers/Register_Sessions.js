@@ -6,47 +6,23 @@ import { DiscordConnect } from "../Utils/DiscordConnect.js";
 
 export default async function Register_Sessions( req, res ) {
     try {
-
-         if(!req.body.sessionBooking){
-        const { name, email, mobile } = req.body ;
-        await InterestedClientsModel.insertOne({name, email, mobile })
+        let {name, email, mobile, smtp_check, carrier, location} = req.body;
+        if(smtp_check && carrier !=='' && location !=='')
+            await InterestedClientsModel.create({name, email, mobile })
+        else if(!smtp_check && (carrier!== '' && location !== ''))
+            await InterestedClientsModel.create({name,mobile})
+        else if(smtp_check && (carrier=='' || location == ''))
+            await InterestedClientsModel.create({name, email});
         const discordMessage ={
+            "Message" : "A New Lead Added ..!!.", 
             'Client Name' : name,
-            'Client E-Mail' : email,
-            'Client Mobile' : mobile,
-            'Action' : 'registered'
+            'Client E-Mail' : smtp_check ? email : "<INVALID E-MAIL>",
+            'Client Mobile' : (carrier !=='' && location !== '')? mobile : "<INVALID MOBILE NO.>",
         }
-        let Clients = await InterestedClientsModel.find();
         DiscordConnect(JSON.stringify(discordMessage, null, 2));
-        res.status(201).json({message : 'Client Added Succesfully !.',
-                                Clients                     
-                            });
-        
-
-     }
-
-    else if(req.body.sessionBooking){
-        const { name, email, mobile , comments, sessionTime} = req.body ;
-        ///here give session time based on calendly..
-    await SessionModel.insertOne({ StudentName : name,
-                                    StudentEmail :email,
-                                    StudentMobile : mobile,
-                                    comments});
-    const discordMessage ={
-        'Client Name' : name,
-        'Client E-Mail' : email,
-        'Client Mobile' : mobile,
-        'Action' : 'Slot Booked'
+        res.status(201).json({message : 'Sucess'});
     }
-    let Sessions = await SessionModel.find();
-    DiscordConnect(JSON.stringify(discordMessage, null, 2));
-    res.status(200).json({message : "sucess",
-                            Sessions
-                        })
-    
-    }
-        
-    } catch (error) {
+    catch (error) {
         console.log(error);
     }
     

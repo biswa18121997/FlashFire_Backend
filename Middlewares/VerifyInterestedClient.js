@@ -1,30 +1,49 @@
 import { InterestedClientsModel } from "../Schema_Models/InterestedClients.js";
-import { SessionModel } from "../Schema_Models/Sessions.js";
-import ENV from "../SECRET.js";
-
+import dotenv from 'dotenv'
+dotenv.config();
 export default async function VerifyInterestedClient(req, res, next){
     console.log("did i log");
     try {
-        let check = await fetch(`http://apilayer.net/api/check?access_key=${ENV.MAILBOX_LAYER_API_ACCESS_KEY}&email=${req.body.email}&smtp=1&format=1`);
-        let response = await check.json();
-        console.log(response);
-        if(!response?.smtp_check){
-            return res.status(403).json({message: "invalid Email or the Email verification serice is down"});
-        }else if(response?.smtp_check){
-            if(!req.body.sessionBooking){
-                const { name, email, mobile } = req.body ;
-                let existance = await InterestedClientsModel.findOne({email})
-                if(existance){
-                    return res.status(402).json({message : 'User Already Exist .. !'})
-                }
+        let checkingInDatabaseForEmail = await InterestedClientsModel.find({email : req.body.email});
+        let checkingInDatabaseForMobile = await InterestedClientsModel.find({mobile : String(req.body.mobile)});
+        if( checkingInDatabaseForEmail.length == 0 && checkingInDatabaseForMobile.length == 0){
+            let checkEmail = await fetch(`http://apilayer.net/api/check?access_key=${process.env.MAILBOX_LAYER_API_ACCESS_KEY}&email=${req.body.email}&smtp=1&format=1`);
+            let responseCheckEmail = await checkEmail.json();
+            console.log(responseCheckEmail);
+
+            let checkMobile = await fetch(`http://apilayer.net/api/validate?access_key=${process.env.NUMVERIFY_API_ACCESS_KEY}&number=${req.body.mobile}&country_code=&format=1`)
+            let responseCheckMobile = await checkMobile.json();
+            console.log(responseCheckMobile);
+            if((responseCheckMobile?.carrier !=='' && responseCheckMobile?.location !=='') && checkEmail?.smtp_check == true){
+                req.body.carrier = responseCheckMobile?.carrier;
+                req.body.location = responseCheckMobile?.location;
+                req.body.smtp_check = responseCheckEmail?.smtp_check;
                 next();
+                return;
             }
-            else if(req.body.sessionBooking){
-                const { name, email, mobile , comments} = req.body ;
-                console.log( name, email, mobile , comments);
-                next();
-            }
+           else if((responseCheckMobile?.carrier == '' || responseCheckMobile?.location == ''  ) && responseCheckEmail?.smtp_check ){
+            req.body.smtp_check = responseCheckEmail?.smtp_check;
+            next();
+            return;
+           }
+           else if((responseCheckMobile?.carrier !== '' && responseCheckMobile?.location !== ''  ) && !responseCheckEmail?.smtp_check) { 
+            req.body.carrier = responseCheckMobile?.carrier;
+            req.body.location = responseCheckMobile?.location;
+            next();
+            return;
+           }
+             
         }
+        else{
+            if(checkingInDatabaseForEmail.length > 0 && checkingInDatabaseForMobile.length > 0)
+                return res.status(400).json({message : 'User already exist with this Email and Mobile No.'});
+            else if(checkingInDatabaseForEmail?.length > 0 && checkingInDatabaseForMobile.length == 0)
+                return res.status(400).json({message : 'User already exist with this Email '});
+            else if(checkingInDatabaseForEmail.length == 0 && checkingInDatabaseForMobile.length > 0)
+                return res.status(400).json({message : 'User already exist with this Mobile '});
+            
+        }
+    
              
     } catch (error) {
         console.log(error)

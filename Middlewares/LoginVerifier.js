@@ -1,4 +1,3 @@
-import ENV from "../SECRET.js";
 import { UserModel } from "../Schema_Models/UserModel.js";
 import bcrypt from 'bcrypt'
 //middleware to verify if the password is correct....

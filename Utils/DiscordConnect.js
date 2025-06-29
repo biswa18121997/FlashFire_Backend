@@ -1,7 +1,7 @@
-import ENV from "../SECRET.js";
+import dotenv from 'dotenv'
+dotenv.config();
 
-
-const webhookURL = ENV.DISCORD_WEB_HOOK_URL;
+const webhookURL = process.env.DISCORD_WEB_HOOK_URL;
 
 export const DiscordConnect = async (message) => {
   try {

@@ -1,14 +1,14 @@
 import { UserModel } from '../Schema_Models/UserModel.js';
-import ENV from '../SECRET.js';
+import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+dotenv.config();
 
 ////middleware that runs a verification on the token..
 export default async function TokenVerifier(req, res, next){
-    let { SECRET_KEY_JWT } = ENV ;
 
     try {   
         let userLoginToken = req.token;
-        let verifcation = jwt.verify(userLoginToken, SECRET_KEY_JWT);
+        let verifcation = jwt.verify(userLoginToken, process.env.SECRET_KEY_JWT);
         if(!verifcation){
             res.status(403).json({message: "TOKEN EXPIRED PLEASE LOGIN AGAIN.."})
         }
