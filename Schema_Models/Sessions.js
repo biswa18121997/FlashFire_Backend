@@ -21,8 +21,13 @@ export const SessionSchema = new mongoose.Schema({
         type: Number ,
         required : true
     },
-    SessionTiming : {
-        type : Date,
+    SessionStartTiming : {
+        type : String,
+        required : true,
+        default : ()=>new Date()
+    },
+    SessionEndTiming : {
+        type : String,
         required : true,
         default : ()=>new Date()
     },
@@ -30,6 +35,12 @@ export const SessionSchema = new mongoose.Schema({
         type : Date,
         required : true,
         default : ()=>new Date()
+    },
+    CancelUrl:{
+        type : String,
+    },
+    RescheduleUrl:{
+        type: String,
     },
     comments : {
         type : String,

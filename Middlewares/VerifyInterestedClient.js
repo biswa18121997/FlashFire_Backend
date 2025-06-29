@@ -2,10 +2,10 @@ import { InterestedClientsModel } from "../Schema_Models/InterestedClients.js";
 import dotenv from 'dotenv'
 dotenv.config();
 export default async function VerifyInterestedClient(req, res, next){
-    console.log("did i log");
+    console.log("req.body:",req.body);
     try {
         let checkingInDatabaseForEmail = await InterestedClientsModel.find({email : req.body.email});
-        let checkingInDatabaseForMobile = await InterestedClientsModel.find({mobile : String(req.body.mobile)});
+        let checkingInDatabaseForMobile = await InterestedClientsModel.find({mobile : req.body.mobile});
         if( checkingInDatabaseForEmail.length == 0 && checkingInDatabaseForMobile.length == 0){
             let checkEmail = await fetch(`http://apilayer.net/api/check?access_key=${process.env.MAILBOX_LAYER_API_ACCESS_KEY}&email=${req.body.email}&smtp=1&format=1`);
             let responseCheckEmail = await checkEmail.json();
